@@ -4,14 +4,14 @@ from pathlib import Path
 
 # related third party imports
 from flask import Flask, jsonify
-from flask_apispec import FlaskApiSpec, ResourceMeta, doc, marshal_with, use_kwargs
+from flask_apispec import FlaskApiSpec, ResourceMeta
 from flask.views import MethodView, MethodViewType
 import bcolz
-import marshmallow as ma
 
 # local application/library specific imports
 
 app = Flask(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 docs = FlaskApiSpec(app)
 
 
@@ -23,26 +23,12 @@ class MethodResource(six.with_metaclass(MethodResourceMeta, MethodView)):
     methods = None
 
 
-class DataFolderFiled(ma.fields.Field):
-    def _deserialize(self, value, attr, obj):
-        try:
-            data_path = Path('data')
-            if value not in set(data_path.glob('*')):
-                raise ma.ValidationError('Path must exist in data/ folder')
-            return value
-        except ma.ValidationError as e:
-            raise e
-        else:
-            ma.ValidationError('unknown')
-
-
-class DataFolderSchema(ma.Schema):
-    folder = DataFolderFiled()
-
-
 class DataResource(MethodResource):
-    @doc(params={'folder': {'description': "subfolder's name inside data folder"}})
     def get(self, folder):
+        data_path = Path('data')
+        valid_folders = set(data_path.glob('*'))
+        if data_path / folder not in valid_folders:
+            return 'Invalid folder name', 422
         data = bcolz.open('data/{}'.format(folder))
         return jsonify(list(data))
 
