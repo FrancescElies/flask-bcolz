@@ -12,7 +12,7 @@ Visit the api spec http://localhost:5000/swagger-ui/ to see the operations you p
 
 ** Run a query
 #+srcname: retrieve the whole data
-#+begin_src language 
+#+begin_src bash
   curl -XGET http://localhost:5000/data/arange 
 #+end_src
 
