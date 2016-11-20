@@ -1,0 +1,18 @@
+* Flask bcolz
+A simple flask application to read bcolz objects on disk
+
+** Run it
+#+srcname: Launch the server
+#+begin_src bash 
+  python flask_bcolz/app.py
+#+end_src
+
+** Api spec
+Visit the api spec http://localhost:5000/swagger-ui/ to see the operations you perform.
+
+** Run a query
+#+srcname: retrieve the whole data
+#+begin_src language 
+  curl -XGET http://localhost:5000/data/arange 
+#+end_src
+
