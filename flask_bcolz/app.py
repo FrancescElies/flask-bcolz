@@ -23,12 +23,13 @@ class MethodResource(six.with_metaclass(MethodResourceMeta, MethodView)):
 
 
 class DataResource(MethodResource):
-    def get(self, sub_path):
-        data = bcolz.open('data/{}'.format(sub_path))
+    @doc(params={'folder': {'description': "subfolder's name inside data folder"}})
+    def get(self, folder):
+        data = bcolz.open('data/{}'.format(folder))
         return jsonify(list(data))
 
 
-app.add_url_rule('/data/<sub_path>', view_func=DataResource.as_view('DataResource'))
+app.add_url_rule('/data/<folder>', view_func=DataResource.as_view('DataResource'))
 docs.register(DataResource, endpoint='DataResource')
 
 if __name__ == "__main__":
