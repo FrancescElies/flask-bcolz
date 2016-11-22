@@ -4,6 +4,8 @@ A simple flask application to read bcolz objects on disk
 Flask-bolz pretends to put bcolz objects on disk behind a flask application
 allowing to retrieve chunks via http calls.
 
+*This is just a personal project, a playground to try stuff*
+
 ** Run it
 #+srcname: Launch the server
 #+begin_src bash 
