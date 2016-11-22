@@ -10,10 +10,6 @@ from flask_apispec import FlaskApiSpec, ResourceMeta
 
 # local application/library specific imports
 
-app = Flask(__name__)
-app.config['PROPAGATE_EXCEPTIONS'] = True
-docs = FlaskApiSpec(app)
-
 
 class MethodResourceMeta(ResourceMeta, MethodViewType):
     pass
@@ -46,11 +42,20 @@ class Status(MethodResource):
         return 'server running', 200
 
 
-app.add_url_rule('/data/<path:folder>/chunks', view_func=DataResource.as_view('DataResource'))
-docs.register(DataResource, endpoint='DataResource')
+def create_app():
+    app = Flask(__name__)
+    app.config['PROPAGATE_EXCEPTIONS'] = True
+    docs = FlaskApiSpec(app)
 
-app.add_url_rule('/status', view_func=Status.as_view('Status'))
-docs.register(Status, endpoint='Status')
+    app.add_url_rule('/data/<path:folder>/chunks', view_func=DataResource.as_view('DataResource'))
+    docs.register(DataResource, endpoint='DataResource')
+
+    app.add_url_rule('/status', view_func=Status.as_view('Status'))
+    docs.register(Status, endpoint='Status')
+
+    return app
+
 
 if __name__ == "__main__":
+    app = create_app()
     app.run(debug=True, host="0.0.0.0")
