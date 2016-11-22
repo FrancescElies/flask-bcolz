@@ -41,8 +41,16 @@ class DataResource(MethodResource):
         return jsonify(list(data))
 
 
+class Status(MethodResource):
+    def get(self):
+        return 'server running', 200
+
+
 app.add_url_rule('/data/<path:folder>/chunks', view_func=DataResource.as_view('DataResource'))
 docs.register(DataResource, endpoint='DataResource')
+
+app.add_url_rule('/status', view_func=Status.as_view('Status'))
+docs.register(Status, endpoint='Status')
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
