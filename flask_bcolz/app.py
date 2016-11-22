@@ -41,7 +41,7 @@ class DataResource(MethodResource):
         return jsonify(list(data))
 
 
-app.add_url_rule('/data/<path:folder>', view_func=DataResource.as_view('DataResource'))
+app.add_url_rule('/data/<path:folder>/chunks', view_func=DataResource.as_view('DataResource'))
 docs.register(DataResource, endpoint='DataResource')
 
 if __name__ == "__main__":
