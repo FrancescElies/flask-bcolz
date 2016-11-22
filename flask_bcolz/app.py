@@ -1,12 +1,12 @@
 # standard library imports
-import six
 from pathlib import Path
 
 # related third party imports
-from flask import Flask, jsonify
-from flask_apispec import FlaskApiSpec, ResourceMeta
-from flask.views import MethodView, MethodViewType
 import bcolz
+import six
+from flask import Flask, jsonify
+from flask.views import MethodView, MethodViewType
+from flask_apispec import FlaskApiSpec, ResourceMeta
 
 # local application/library specific imports
 
